@@ -179,7 +179,10 @@ async function saveOpenApiSpec() {
 // Document processing functions
 async function processDocument(doc, existingTags, existingCorrespondentList, ownUserId) {
   const isProcessed = await documentModel.isDocumentProcessed(doc.id);
-  if (isProcessed) return null;
+  if (isProcessed) {
+    console.log(`[DEBUG] Document: ${doc.id}, skipping because already processed.`);
+    return null;
+  }
   await documentModel.setProcessingStatus(doc.id, doc.title, 'processing');
 
   //Check if the Document can be edited
